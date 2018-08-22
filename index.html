@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+ <xml Id = msg SRC = "new 1.xml"> 
+ </xml>
+<meta charset="UTF-8">
+<meta name="authoring-tool" content="Adobe_Animate_CC">
+<title>Medieval Weapons</title>
+	<link rel="stylesheet" href="themes/prototype5.min.css" />
+	<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+<script src="Draft Banner.js"></script>
+<script>
+var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+function init() {
+	canvas = document.getElementById("canvas");
+	anim_container = document.getElementById("animation_container");
+	dom_overlay_container = document.getElementById("dom_overlay_container");
+	images = images||{};
+	ss = ss||{};
+	var loader = new createjs.LoadQueue(false);
+	loader.addEventListener("fileload", handleFileLoad);
+	loader.addEventListener("complete", handleComplete);
+	loader.loadManifest(lib.properties.manifest);
+}
+function handleFileLoad(evt) {	
+	if (evt.item.type == "image") { images[evt.item.id] = evt.result; }	
+}
+function handleComplete(evt) {
+	//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+	var queue = evt.target;
+	var ssMetadata = lib.ssMetadata;
+	for(i=0; i<ssMetadata.length; i++) {
+		ss[ssMetadata[i].name] = new createjs.SpriteSheet( {"images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames} )
+	}
+	exportRoot = new lib.DraftBanner();
+	stage = new createjs.Stage(canvas);
+	stage.addChild(exportRoot);	
+	//Registers the "tick" event listener.
+	fnStartAnimation = function() {
+		createjs.Ticker.setFPS(lib.properties.fps);
+		createjs.Ticker.addEventListener("tick", stage);
+	}	    
+	//Code to support hidpi screens and responsive scaling.
+	function makeResponsive(isResp, respDim, isScale, scaleType) {		
+		var lastW, lastH, lastS=1;		
+		window.addEventListener('resize', resizeCanvas);		
+		resizeCanvas();		
+		function resizeCanvas() {			
+			var w = lib.properties.width, h = lib.properties.height;			
+			var iw = window.innerWidth, ih=window.innerHeight;			
+			var pRatio = window.devicePixelRatio || 1, xRatio=iw/w, yRatio=ih/h, sRatio=1;			
+			if(isResp) {                
+				if((respDim=='width'&&lastW==iw) || (respDim=='height'&&lastH==ih)) {                    
+					sRatio = lastS;                
+				}				
+				else if(!isScale) {					
+					if(iw<w || ih<h)						
+						sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==1) {					
+					sRatio = Math.min(xRatio, yRatio);				
+				}				
+				else if(scaleType==2) {					
+					sRatio = Math.max(xRatio, yRatio);				
+				}			
+			}			
+			canvas.width = w*pRatio*sRatio;			
+			canvas.height = h*pRatio*sRatio;
+			canvas.style.width = dom_overlay_container.style.width = anim_container.style.width =  w*sRatio+'px';				
+			canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = h*sRatio+'px';
+			stage.scaleX = pRatio*sRatio;			
+			stage.scaleY = pRatio*sRatio;			
+			lastW = iw; lastH = ih; lastS = sRatio;		
+		}
+	}
+	makeResponsive(false,'both',false,1);	
+	fnStartAnimation();
+}
+</script>
+<!-- write your code here -->
+</head>
+<body onload="init();" style="margin:0px;">
+	
+	<!-- Start of first page: #one -->
+<div data-role="page" id="one">
+<div data-role="content" data-theme="a">
+	
+
+	<div data-role="content" >	
+		<center><div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:799px; height:250px">
+		<center><canvas id="canvas" width="799" height="250" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+		<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:799px; height:250px; position: absolute; left: 0px; top: 0px; display: block;">
+		</center></div>
+	</div>
+		<h2>Welcome to weapons of the Medieval Ages</h2>
+
+		<p>A Glossary for you to explore where I will show you the weapons used in the medieval ages from swords to crossbows. On this page are ten entries that contain a description of what these weapons did in the medieval period.</p>
+		<p>Simply just click on the button which will redirect you to the weapon. At the bottom of the page you will see a short video demonstrating what these weapons are capable of.</p>
+		<h3>Weapons:</h3>
+		<p><a href="#two" data-role="button">Claymore</a></p>	
+		<p><a href="#three" data-role="button">Mace</a></p>
+		<p><a href="#four" data-role="button">Battle Axe</a></p>
+		<p><a href="#five" data-role="button">Trebuchet</a></p>
+		<p><a href="#six" data-role="button">Knightly Sword</a></p>
+		<p><a href="#seven" data-role="button">Lance</a></p>
+		<p><a href="#eight" data-role="button">Pike</a></p>
+		<p><a href="#nine" data-role="button">Seige Tower</a></p>
+		<p><a href="#ten" data-role="button">Crossbow</a></p>
+	</div><!-- /content -->
+	</div>
+	
+</div><!-- /page one -->
+
+
+<!-- Start of second page: #two -->
+<div data-role="page" id="two" data-theme="a">
+
+	<div data-role="content" data-theme="a">	
+		<center><h1>Claymore</h1>
+		<img src="Images/Claymore.png" alt="Claymore" width="800" height="200"></center>
+		<p>A claymore (/ˈkleɪmɔər/; from Scottish Gaelic claidheamh-mòr, "great sword")refers either to the Scottish variant of the late medieval two-handed sword or the Scottish variant of the basket-hilted sword. The former is characterised as having a cross hilt of forward-sloping quillons with quatrefoil terminations and was in use from the 15th to 17th centuries.</p>
+		<p>The word claymore was first used in reference to swords in the 18th century in Scotland and parts of England to refer to basket-hilted swords.This description was maybe not used during the 17th century, when basket hilted swords were the primary military swords across Europe, but these broad-bladed swords remained in service with Scottish regiments for some time longer. After the Acts of Union in 1707 when Scottish and English regiments were integrated together, the swords were seen as a mark of distinction by Scottish officers over the more slender sabres used by their English contemporaries: a symbol of physical strength and prowess, and a link to the historic Highland way of life. Such swords remained in service with Scottish regiments into the 19th century.</p>
+		<p><h2>Terminology:</h2><p>
+		<p>The term claymore is an anglicisation of the Gaelic claidheamh-mór "great sword", attested in 1772 (as Cly-more) with the gloss "great two-handed sword". The sense "basket-hilted sword" is contemporaneous, attested in 1773 as "The broad-sword now used [...] called the Claymore, (i.e., the great sword)." OED observes that the latter usage is "inexact, but very common". The 1911 Encyclopædia Britannica likewise judged that the term is "wrongly" applied to the basket-hilted sword.<p>
+		<p>The term claymore is an anglicisation of the Gaelic claidheamh-mór "great sword", attested in 1772 (as Cly-more) with the gloss "great two-handed sword".[3] The sense "basket-hilted sword" is contemporaneous, attested in 1773 as "The broad-sword now used [...] called the Claymore, (i.e., the great sword)."[4] OED observes that the latter usage is "inexact, but very common". The 1911 Encyclopædia Britannica likewise judged that the term is "wrongly" applied to the basket-hilted sword.<p>
+		<p>Authors arguing that the basket-hilted sword is "incorrectly" called claymore have been known to suggest that claybeg (from a purported Gaelic claidheamh-beag "small sword") should be used instead.This term is not seen in clan-era Gaelic song or poetry, Dwelly's [ibid.], or other authorities, and seems to be a fairly recent invention.<p>
+		<p>This does not parallel Scottish Gaelic usage. According to the Gaelic Dictionary by R. A. Armstrong (1825), claidheamh-mòr translates to "broadsword", and claidheamh dà làimh to "two-handed sword", while claidheamh-beag is given as a translation of "Bilbo".<p>
+		<p>The term "claymore" became part of vocabulary of the Victorian era sentimental or Romanticist "retro-Jacobite" literature and poetry such as the Skye Boat Song (1870).<p>
+		<p>Other contemporary Gaelic descriptives of swords include claidheamh-cùil or back sword, referring to a single-edged sword with a flat "spine" (not one worn on the back, a common misinterpretation), the claidheamh-crom or crooked sword, which could describe either a typical sabre-style blade (such as that worn by Archibald Campbell, 1st Duke of Argyll, in the painting by Medina) or a scimitar style blade known as a "Turcael" ("Turkish" blade) such as that brandished by Alasdair Mòr, the Champion of Clan Grant, in the c. 1715 portrait by Waitt, or the claidheamh-caol or narrow sword, usually describing a rapier or small-sword.<p>
+		<p><h2>Two-handed (Highland) claymore:</h2></p>
+		<p>The two-handed claymore was a large sword used in the late Medieval and early modern periods. It was used in the constant clan warfare and border fights with the English from circa 1400 to 1700. Although Claymores existed as far back as the Wars of Scottish Independence they were smaller and few had the typical quatrefoil design (as can be seen on the Great Seal of John Balliol King of Scots). The last known battle in which it is considered to have been used in a significant number was the Battle of Killiecrankie in 1689. It was somewhat longer than other two-handed swords of the era. The two-handed claymore seems to be an offshoot of Early Scottish medieval longswords (similar to the Espee de Guerre or Grete war sword) which had developed a distinctive style of a cross-hilt with forward-angled arms that ended in spatulate swellings.The lobed pommels on earlier swords were inspired by the Viking style. The spatulate swellings were later frequently made in a quatrefoil design.</p>
+		<p>The average claymore ran about 140 cm (55 in) in overall length, with a 33 cm (13 in) grip, 107 cm (42 in) blade, and a weight of approximately 5.5 lb (2.5 kg). For instance, in 1772 Thomas Pennant described a sword seen on his visit to Raasay as: "an unwieldy weapon, two inches broad, doubly edged; the length of the blade three feet seven inches; of the handle, fourteen inches; of a plain transverse guard, one foot; the weight six pounds and a half."</p>
+		<p>Fairly uniform in style, the sword was set with a wheel pommel often capped by a crescent-shaped nut and a guard with straight, forward-sloping arms ending in quatrefoils, and langets running down the centre of the blade from the guard.Another common style of two-handed claymore (though lesser known today) was the "clamshell hilted" claymore. It had a crossguard that consisted of two downward-curving arms and two large, round, concave plates that protected the foregrip. It was so named because the round guards resembled an open clam.</p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/_hfLZozBVpM" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+
+
+<div data-role="page" id="three" data-theme="a">
+
+	
+
+	<div data-role="content" data-theme="a">	
+		<center><h1>Mace</h1>
+		<img src="Images/Mace.png" alt="Mace" width="480" height="200"></center>
+		<p>A mace is a blunt weapon, a type of club or virge that uses a heavy head on the end of a handle to deliver powerful blows. A mace typically consists of a strong, heavy, wooden or metal shaft, often reinforced with metal, featuring a head made of stone, copper, bronze, iron, or steel.</p>
+
+		<p>The head of a military mace can be shaped with flanges or knobs to allow greater penetration of plate armour. The length of maces can vary considerably. The maces of foot soldiers were usually quite short (two or three feet, or seventy to ninety centimetres). The maces of cavalrymen were longer and thus better suited for blows delivered from horseback. Two-handed maces could be even larger.</p>
+
+		<p>Maces are rarely used today for actual combat, but a large number of government bodies (for instance, the British House of Commons and the U.S. Congress), universities and other institutions have ceremonial maces and continue to display them as symbols of authority. They are often paraded in academic, parliamentary or civic rituals and processions.</p>
+
+		<p><h2>Prehistory:</h2></p>
+		<p>The mace was developed during the Upper Paleolithic from the simple club, by adding sharp spikes of flint or obsidian.<p>
+		<p>In Europe, an elaborately carved ceremonial flint mace head was one of the artifacts discovered in excavations of the Neolithic mound of Knowth in Ireland, and Bronze Age archaeology cites numerous finds of perforated mace heads.<p>
+		<p>In ancient Ukraine, stone mace heads were first used nearly eight millennia ago. The others known were disc maces with oddly formed stones mounted perpendicularly to their handle. The Narmer Palette shows a king swinging a mace. See the articles on the Narmer Macehead and the Scorpion Macehead for examples of decorated maces inscribed with the names of kings.<p>
+		<p>The problem with early maces was that their stone heads shattered easily and it was difficult to fix the head to the wooden handle reliably. The Egyptians attempted to give them a disk shape in the predynastic period (about 3850–3650 B.C.) in order to increase their impact and even provide some cutting capabilities, but this seems to have been a short-lived improvement.<p>
+		<p>A rounded pear form of mace head known as a "piriform" replaced the disc mace in the Naqada II period of pre-dynastic Upper Egypt (3600–3250 B.C.) and was used throughout the Naqada III period (3250-3100 B.C.). Similar mace heads were also used in Mesopotamia around 2450–1900 B.C. The Assyrians used maces probably about nineteenth century B.C. and in their campaigns; the maces were usually made of stone or marble and furnished with gold or other metals, but were rarely used in battle unless fighting heavily armoured infantry.<p>
+		<p>An important, later development in mace heads was the use of metal for their composition. With the advent of copper mace heads, they no longer shattered and a better fit could be made to the wooden club by giving the eye of the mace head the shape of a cone and using a tapered handle.<p>
+		<p>The Shardanas or warriors from Sardinia who fought for Ramses II against the Hittities were armed with maces consisting of wooden sticks with bronze heads. Many bronze statuettes of the times show Sardinian warriors carrying swords, bows and original maces.<p>
+		
+		<p><h2>European Middle Ages:</h2></p>
+		<p>During the Middle Ages metal armour such as mail protected against the blows of edged weapons. Solid metal maces and war hammers proved able to inflict damage on well armoured knights, as the force of a blow from a mace is great enough to cause damage without penetrating the armour. Though iron became increasingly common, copper and bronze were also used, especially in iron-deficient areas. The Sami, for example,continued to use bronze for maces as a cheaper alternative to iron or steel swords.<p>
+		<p>One example of a mace capable of penetrating armour is the flanged mace. The flanges allow it to dent or penetrate thick armour. Flange maces did not become popular until after knobbed maces. Although there are some references to flanged maces (bardoukion) as early as the Byzantine Empire c. 900 it is commonly accepted that the flanged mace did not become popular in Europe until the 12th century, when it was concurrently developed in Russia and Mid-west Asia.<p>
+		<p>Maces, being simple to make, cheap, and straightforward in application, were quite common weapons. Examples found in museums are often highly decorated.<p>
+		<p>It is popularly believed that maces were employed by the clergy in warfare to avoid shedding blood (sine effusione sanguinis). The evidence for this is sparse and appears to derive almost entirely from the depiction of Bishop Odo of Bayeux wielding a club-like mace at the Battle of Hastings in the Bayeux Tapestry, the idea being that he did so to avoid either shedding blood or bearing the arms of war. The fact that his brother Duke William carries a similar item suggests that, in this context, the mace may have been simply a symbol of authority.[3] Certainly, other bishops were depicted bearing the arms of a knight without comment, such as Archbishop Turpin who bears both a spear and a sword named "Almace" in The Song of Roland or Bishop Adhemar of Le Puy, who also appears to have fought as a knight during the First Crusade, an expedition that Odo also joined.<p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/-S87kkS5m5Y" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+<div data-role="page" id="four" data-theme="a">
+
+	
+
+	<div data-role="content" data-theme="a">	
+		<center><h1>Battle Axe</h1>
+		<img src="Images/Battle Axe.png" alt="Battle Axe" width="480" height="200"></center>
+		<p>A battle axe (also battle-axe or battle-ax) is an axe specifically designed for combat. Battle axes were specialized versions of utility axes. Many were suitable for use in one hand, while others were larger and were deployed two-handed.</p>
+
+		<p>Axes designed for warfare ranged in weight from just over 0.5 kg to 3 kg ( 1 to 6 pounds), and in length from just over 30 cm to upwards of 1.5 m (1 to 5 feet), as in the case of the Danish axe or the sparth axe. Cleaving weapons longer than 1.5 m would arguably fall into the category of polearms.</p>
+		
+		<p><h2>The Middle Ages:</h2></p>
+		<p>Battle axes were very common in Europe in the Migration Period and the subsequent Viking Age, and they famously figure on the 11th-century Bayeaux Tapestry, which depicts Norman mounted knights pitted against Anglo-Saxon infantrymen. They continued to be employed throughout the rest of the Middle Ages, with significant combatants being noted axe wielders in the 12th, 13th and 14th centuries.<p>
+		<p>King Stephen of England famously used a Danish axe at the Battle of Lincoln 1141. One account says after his sword broke,another says he used his sword only after his axe broke.<p>
+		<p>Richard the Lionheart was often recorded in Victorian times wielding a large war axe, though references are sometimes wildly exaggerated as befitted a national hero: "Long and long after he was quiet in his grave, his terrible battle-axe, with twenty English pounds of English steel in its mighty head..." - A Child's History of England by Charles Dickens. Richard is, however, recorded as using a Danish Axe at the relief of Jaffa. Geoffrey de Lusignan is another famous crusader associated with the axe.<p>
+		<p>King Robert I of Scotland used an axe to defeat Henry de Bohun in single combat at the start of the Battle of Bannockburn in 1314, and they enjoyed a sustained revival in use among heavily armored equestrian combatants in the 15th century. Given that Bruce was wielding the axe on horseback, it is likely that the weapon in this case was a one handed horseman's axe.<p>
+		<p>In the 14th. century, the use of axes is increasingly noted by Froissart in his Chronicle, which records the engagements between the kingdoms of France and England and the rise of professional (and mercenary) armies in the 14th century. King John II is recorded as using one at the Battle of Poitiers in 1356 and Sir James Douglas at the Battle of Otterburn in 1388. Bretons were apparently noted axe users, with noted mercenaries Bertrand du Guesclin and Olivier de Clisson both wielding axes in battle. In these instances the type of battle axe - whether a Danish axe, or the proto-pollaxe - is not recorded.<p>
+		<p>Most medieval European battle axes had a socketed head (meaning that the thicker, butt-end of the blade contained an opening into which a wooden haft was inserted), and some included langets—long strips of metal affixed to the faces of the haft to prevent it from being damaged during combat. Occasionally the cheeks of the axehead bore engraved, etched, punched or inlaid decorative patterns. Late-period battle axes tended to be of all-metal construction.<p>
+		<p>Such medieval polearms as the halberd and the poleaxe were variants of the basic battle-axe form.<p>
+		<p>Steel plate-armor covering almost all of a knight's body—and incorporating features specifically designed to defeat axe and sword blades become more common in the late 14th and early 15th century, leading to a generation of hafted weapons with points that concentrated impact, either to penetrate steel plate or to damage the joints of articulated plate. Increasingly daggers called misericords were carried which enabled a sharp point to be thrust though gaps in armour if an opponent was disabled or being grappled with. Swords styles became more diverse - from the two-handed zweihänders to more narrow thrusting instruments with sharply pointed tips, capable of penetrating any "chinks in the armour" of a fully encased opponent: for example, the estoc.<p>
+		<p>The newly invented flanged mace, for example, was no crude bludgeon like its predecessors. The vertical flanges projecting at regular intervals from its head could fracture plate armor and smash into underlying body tissue—yet it was a much cheaper weapon to make than a sword, whose blade was inclined in any case to glance harmlessly off the smooth, curved plates of a well-designed suit of armor if used in a chopping manner.<p>
+		<p>A sharp, sometimes curved pick was often fitted to the rear of the battle axe's blade to provide the user with a secondary weapon of penetration. A stabbing spike could be added, too, as a finial. Similarly, the war hammer evolved in late-medieval times with the aim of punching its spiked head through helmets or breastplates. These armour penetrations were not always fatal. There are many accounts of plate armored knights being struck with said weapons and while the armour was damaged, the individual underneath survived and in some cases completely unharmed.<p>
+		<p>It eventually became common for these various kinds of impact weapons to be made entirely from metal, thus doing away with reinforced wooden shafts.<p>
+		<p>A useful visual guide to high-medieval battle axes, contemporary with their employment, are the scenes of warfare depicted in the Maciejowski Bible (Morgan Bible) of circa 1250.<p>
+		<p>Battle axes also came to figure as heraldic devices on the coats of arms of several English and mainland European families.<p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/HUshg3DsGD8" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+
+<div data-role="content" id="five" data-theme="a">	
+<div data-role="content" data-theme="a">
+		<center><h1>Trebuchet</h1>
+		<img src="Images/Trebuchet.png" alt="Trebuchet" width="480" height="250"></center>
+		<p>A trebuchet (French trébuchet) is a type of siege engine most frequently used in the Middle Ages. It is sometimes called a counterweight trebuchet or counterpoise trebuchet, to distinguish it from an earlier weapon called the traction trebuchet, where men pulling ropes provided the power.</p>
+
+		<p>The counterweight trebuchet appeared in both Christian and Muslim lands around the Mediterranean in the 12th century. It could fling projectiles weighing up to 350 pounds (160 kg) at or into enemy fortifications. Its use continued into the 15th century, well after the introduction of gunpowder.</p>
+
+		<p>The three distinguishing characteristics of a trebuchet are:<p>
+		<ul style="list-style-type:disc">
+  <li>The trebuchet is a compound machine—a combination of simple machines. The trebuchet makes use of the mechanical advantage of a lever. Most trebuchets are powered exclusively by the force of gravity. Potential energy is stored by means of an extremely heavy weight box attached (by a hinged connection) to the counterweight portion of the throwing arm. Some earlier trebuchets stored potential energy as traction force (traction trebuchets).</li>
+  <li>When the trebuchet is fired, the weight box is permitted to fall and the force of gravity causes rotational acceleration of the attached throwing arm around the axle (the fulcrum of the lever). The throwing arm is usually four to six times the length of the counterweight portion. These factors multiply the acceleration transmitted to the throwing portion of the arm and its attached sling.</li>
+  <li>The sling is affixed to the end of the throwing portion of the throwing arm (opposite the counter weight portion). The sling contains the projectile and transmits the forces generated at the end of the throwing arm to the projectile. The sling also changes the trajectory, so that, at the time of release from the sling, the projectile is traveling in the desired speed and angle to give it the range to reach the target.</li>
+</ul>  
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/pR26RMI9T8c" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+		
+</div><!-- /content -->
+	
+
+	
+	
+	<div data-role="page" id="six" data-theme="a">
+		<div data-role="content" data-theme="a">	
+		<center><h1>Knightly Sword</h1>
+		<img src="Images/Knight Sword.png" alt="Knightly Sword" width="799" height="181"></center>
+		<p>The Arming sword (or Knightly sword in modern terminology) was the most widespread type of sword in the European High Middle Ages. It was a straight, double-edged weapon with a single-handed cruciform hilt and a blade length of about 70 to 80 centimetres (28 to 31 in). The type is frequently depicted in period artwork, and numerous examples have been preserved archaeologically.</p>
+
+		<p>The high medieval sword of the Romanesque period (10th to 13th centuries) develops gradually from the Carolingian sword (spatha) of the 9th century. In the Late Medieval period (14th and 15th centuries), derived or late forms of these swords continued to be used, but now often as a sidearm, especially of the estoc type, now called "arming sword" and contrasting with the two-handed, heavier longsword. After the end of the medieval period, the arming sword develops into the early modern rapier.</p>
+
+		<p><h2>Blade:</h2></p>
+		<p>The common "knightly swords" of the high medieval period (11th to early 12th centuries) fall under types X to XII.<p>
+		<p>Type X is the Norman sword as it developed out of the early medieval Viking sword by the 11th century. Type XI shows the development towards a more tapering point seen during the 12th century. Type XII is a further development, typical throughout the Crusades period, showing a tapering blade with a shortened fuller. Subtype XIIa comprises the longer and more massive "great-swords" which developed in the mid-13th century, probably designed to counter improvements in mail armour; these are the predecessors of the late medieval longsword (see also Cawood sword).<p>
+		<p>Type XIII is the knighly sword typical of the later 13th century. Swords of this type have long, wide blades with parallel edges, terminating in a rounded or spatulate tip, and with a lens-shaped cross-section. The hilts become somewhat longer, about 15 cm, to allow occasional two-handed use. The pommels are mostly have bazil-nut or disk shape. Subtype XIIIa has longer blades and hilts. These are the knightly "great-swords", or Grans espées d'Allemagne which seamlessly develop into the longsword type in the 14th century. Subtype XIIIb describes smaller single-handed swords of similar shape. Type XIV sword develops towards the very end of the high medieval period, around 1270, and remained popular during the early decades of the 14th century. They are often depicted on the tomb effigies of English knights of the period, but there are only few surviving specimens. Continuations of the knightly sword as the "arming sword" type of the late medieval period correspond to Oakeshott types XV, XVI and XVIII.<p>
+		
+		<p><h2>Pommel:</h2></p>
+		<p>Oakeshott's pommel typology groups medieval pommel shapes into 24 categories (some with subtypes). Type A is the "brazil-nut" shape inherited from the classical "Viking sword". Type B includes more rounded forms of A, including the "mushroom" or "tea-cosy" shape. Type C is the "crocked-hat" shape also found in Viking swords, with D, E and F derived variants of C.<p>
+		<p>Type G is the disk-pommel found very frequently in medieval swords. Type H is a variant of the disk pommel, with the edges chamfered off. This is one of the most frequently found shapes throughout the 10th to 15th centuries. I, J and K are derived variants of the disk pommel.<p>
+		<p>Types L to S are rare shapes, in many cases difficult to date. Type L has a trefoil-like shape; it is possibly limited to Spain in the 12th to 13th centuries. Type M is a special derived variant of the multi-lobed pommel of the Viking Age, found only in a very limited number of swords (see Cawood sword). Types P ("shield-shaped") and Q ("flower-shaped") are not even known to be attested in any surviving sword and known only from period artwork. R is a spherical pommel, known only from a few specimens.<p>
+		<p>Types T to Z are pommel shapes used in the late medieval period; T is the "fig" or "pear" or "scent-stopper" shape, first used in the early 14th century, but seen with any frequency only after 1360, with numerous derived forms well into the 16th century. U is a "key-shaped" type used only in the second half of the 15th century. V is the "fish-tail" pommel, used in the 15th century. Z is the "cat's head" shape apparently used exclusively in Venice.<p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/ALlPtR8MI50" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+	</div><!-- /content -->
+	
+	
+	</div><!-- /page two -->
+
+	<div data-role="page" id="seven" data-theme="a">
+		<div data-role="content" data-theme="a">	
+		<center><h1>Lance</h1>
+		<img src="Images/Lancer.png" alt="Lance" width="500" height="150"></center>
+		
+		<p>The lance is a pole weapon or spear designed to be used by a mounted warrior or cavalry soldier (lancer). During the periods of classical and medieval warfare, it evolved into being the leading weapon in cavalry charges, and was unsuited for throwing or for repeated thrusting, unlike similar weapons of the spear/javelin/pike family typically used by infantry. Lances were often equipped with a vamplate – a small circular plate to prevent the hand sliding up the shaft upon impact. Though best known as a military and sporting weapon carried by European knights, the use of lances was widespread throughout Asia, the Middle East and North Africa wherever suitable mounts were available. As a secondary weapon, lancers of the medieval period also bore swords or maces for hand-to-hand combat, since the lance was often a one-use-per-engagement weapon; assuming the lance survived the initial impact intact, it was (depending on the lance) usually too long, heavy and slow to be effective against opponents in a melee.</p>
+		<p><h2>Use in the Middle Ages:</h2></p>
+		<p>The Byzantine cavalry used lances (kontos or kontarion) almost exclusively, often in mixed lancer and mounted archer formations (cursores et defensores). The Byzantines used lance both overarm and underarm, couched.<p>
+		<p>The best known usage of military lances was that of the full-gallop closed-ranks charge of a group of knights with underarm-couched lances, against lines of infantry, archery regiments, defensive embankments, and opposition cavalry. Two variants on the couched lance charge developed, the French method, en haie, with lancers in a double line and the German method, with lancers drawn up in a deeper formation which was often wedge-shaped. It is commonly believed that this became the dominant European cavalry tactic in the 11th century after the development of the cantled saddle and stirrups (the Great Stirrup Controversy), and of rowel spurs (which enabled better control of the mount). Cavalry thus outfitted and deployed had a tremendous collective force in their charge, and could shatter most contemporary infantry lines. Recent evidence has suggested, however, that the lance charge was effective without the benefit of stirrups.<p>
+		<p>Because of the extreme stopping power of a thrusting spear, it quickly became a popular weapon of infantry in the Late Middle Ages. These eventually led to the rise of the longest type of spears, the pike. This adaptation of the cavalry lance to infantry use was largely tasked with stopping lance-armed cavalry charges. During the 15th, 16th and 17th centuries, these weapons, both mounted and unmounted, were so effective that lancers and pikemen not only became a staple of every Western army, but also became highly sought-after mercenaries. (However, the pike had already been used by Philip II of Macedon in antiquity to great effect, in the form of the sarissa.)<p>
+		<p>In Europe, a jousting lance was a variation of the knight's lance which was modified from its original war design. In jousting, the lance tips would usually be blunt, often spread out like a cup or furniture foot, to provide a wider impact surface designed to unseat the opposing rider without spearing him through. The centre of the shaft of such lances could be designed to be hollow, in order for it to break on impact, as a further safeguard against impalement. They were often at least 4m long, and had hand guards built into the lance, often tapering for a considerable portion of the weapon's length. These are the versions that can most often be seen at medieval reenactment festivals. In war, lances were much more like stout spears, long and balanced for one-handed use, and with sharpened tips.<p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/1yinMCttGrw" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+<div data-role="page" id="eight" data-theme="a">
+		<div data-role="content" data-theme="a">	
+		<center><h1>Pike</h1>
+		<img src="Images/Pike.png" alt="Pike" width="300" height="300"></center>
+		
+		<p>A pike is a pole weapon, a very long thrusting spear formerly used extensively by infantry. Unlike many similar weapons, the pike is not intended to be thrown. Pikes were used regularly in European warfare from the early Middle Ages until around 1700, and were wielded by foot soldiers deployed in close quarters. The pike found extensive use with Landsknecht armies and Swiss mercenaries, who employed it as their main weapon and used it in pike square formations. A similar weapon, the sarissa, was also used by Alexander the Great's Macedonian phalanx infantry to great effect. Generally, a spear becomes a pike when it is too long to be wielded with one hand in combat.</p>
+		<p><h2>Medieval Europe Revival:</h2></p>
+		<p>In the Middle Ages, the principal users of the pike were urban militia troops such as the Flemings or the peasant array of the lowland Scots. For example, the Scots used a spear formation known as the schiltron in several battles during the Wars of Scottish Independence including the Battle of Bannockburn in 1314, and the Flemings used their geldon long spear to absorb the attack of French knights at the Battle of the Golden Spurs in 1302, before other troops in the Flemish formation counterattacked the stalled knights with Goedendags. Both battles were seen by contemporaries as stunning victories of commoners over superbly equipped, mounted, military professionals, where victory was owed to the use of the pike and the brave resistance of the commoners who wielded them.<p>
+		<p>These formations were essentially immune to the attacks of mounted men-at-arms as long as the knights obligingly threw themselves on the spear wall and the foot soldiers remained steady under the morale challenge of facing a cavalry charge, but the closely packed nature of pike formations rendered them vulnerable to enemy archers and crossbowmen who could shoot them down with impunity, especially when the pikemen did not have adequate armor. Many defeats, such as at Roosebeke and Halidon Hill, were suffered by the militia pike armies when faced by cunning foes who employed their archers and crossbowmen to thin the ranks of the pike blocks before charging in with their (often dismounted) men-at-arms.<p>
+		<p>Medieval pike formations tended to have better success when they operated in an aggressive fashion. The Scots at the Battle of Stirling Bridge (1297), for example, utilized the momentum of their charge to overrun an English army while the Englishmen were crossing a narrow bridge. At the Battle of Laupen (1339), Bernese pikemen overwhelmed the infantry forces of the opposing Habsburg/Burgundian army with a massive charge before wheeling over to strike and rout the Austro-Burgundian horsemen as well. At the same time however such aggressive action required considerable tactical cohesiveness or suitable terrain to protect the vulnerable flanks of the pike formations especially from the attack of mounted man-at-arms, when these features not available Medieval militia pikes often suffered costly failures such as at Battles of Mons-en-Pevele (1304), Cassel (1328), Roosebeke (1382) and Othee (1408). The constant success of the Swiss mercenaries in the later period was attributed to their extreme discipline and tactical unity due to semi-professional nature, allowing a pike block to somewhat alleviate the threat presented by flanking attacks.<p>
+		<p>It was not uncommon for aggressive pike formations to be composed of dismounted men-at-arms, as at the Battle of Sempach (1386), where the dismounted Austrian vanguard, using their lances as pikes, had some initial success against their predominantly halberd-equipped Swiss adversaries. Dismounted Italian men-at-arms also used the same method to defeat the Swiss at the Battle of Arbedo (1422). Equally, well-armored Scottish nobles (accompanied even by King James IV) were recorded as forming the leading ranks of Scottish pike blocks at the Battle of Flodden, incidentally rendering the whole formation resistant to English archery.<p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/arpXydTS9rU" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+
+<div data-role="page" id="nine" data-theme="a">
+<div data-role="content" data-theme="a">	
+		<center><h1>Siege tower</h1>
+		<img src="Images/Seige.png" alt="Siege Tower" width="300" height="300"></center>
+		
+		<p>A siege tower or breaching tower (or in the Middle Ages, a belfry) is a specialized siege engine, constructed to protect assailants and ladders while approaching the defensive walls of a fortification. The tower was often rectangular with four wheels with its height roughly equal to that of the wall or sometimes higher to allow archers to stand on top of the tower and shoot arrows into the fortification. Because the towers were wooden and thus flammable, they had to have some non-flammable covering of iron or fresh animal skins.</p>
+		
+		<p>Used since the 11th century BC by the Babylonians and Assyrians in the ancient Near East, the 4th century BC in Europe and also in antiquity in the Far East, siege towers were of unwieldy dimensions and, like trebuchets, were therefore mostly constructed on site of the siege. Taking considerable time to construct, siege towers were mainly built if the defense of the opposing fortification could not be overcome by ladder assault ("escalade"), by mining or by breaking walls or gates.</p>
+		
+		<p>The siege tower sometimes housed spearmen, pikemen, swordsmen, archers or crossbowmen who shot arrows and quarrels at the defenders. Because of the size of the tower it would often be the first target of large stone catapults but it had its own projectiles with which to retaliate.</p>
+		
+		<p>Siege towers were used to get troops over an enemy curtain wall. When a siege tower was near a wall, it would drop a gangplank between it and the wall. Troops could then rush onto the walls and into the castle or city.</p>
+		<p><h2>Use in the middle ages:</h2></p>
+		<p>With the collapse of the Roman Empire in the West into independent states, and the Eastern Roman Empire on the defensive, the use of siege towers reached its height during the medieval period. Siege towers were used when the Avars laid siege unsuccessfully to Constantinople in 626, as the Chronicon Paschale recounts:<p>
+		<p><center><i>"And in the section from the Polyandrion Gate as far as the Gate of St Romanus he prepared to station twelve lofty siege towers, which were advanced almost as far as the outworks, and he covered them with hides."</i></center></p>
+		<p>At this siege the attackers also made use of "sows" - mobile armoured shelters which were used throughout the medieval period, and allowed workers to fill in moats with protection from the defenders (thus levelling the ground for the siege towers to be moved to the walls). However, the construction of a sloping talus at the base of a castle wall (as was common in Crusader fortification) could have reduced the effectiveness of this tactic to an extent.<p>
+		<p>Siege towers also became more elaborate during the medieval period; at the Siege of Kenilworth Castle in 1266, for example, 200 archers and 11 catapults operated from a single tower. Even then, the siege lasted almost a year, making it the longest siege in English history. They were not invulnerable either, as during the Fall of Constantinople in 1453, Ottoman siege towers were sprayed by the defenders with Greek fire.<p>
+		<p>Siege towers became vulnerable and obsolete with the development of large cannon. They had only ever existed to get assaulting troops over high walls and large cannon also made high walls obsolete as fortification took a new direction. However, later constructions known as battery-towers took on a similar role in the gunpowder age; like siege-towers, these were built out of wood on site for mounting siege artillery. One of these was built by the Russian military engineer Ivan Vyrodkov during the siege of Kazan in 1552 (as part of the Russo-Kazan Wars), and could hold ten large-calibre cannon and 50 lighter cannons. Likely, it was a development of the gulyay-gorod (that is a mobile fortification assembled on wagons or sleds from prefabricated wall-sized shields with holes for cannons). Later battery towers were often used by the Ukrainian Cossacks.<p>
+		
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/qXsYJD3BJlQ" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+		</div>
+	</div><!-- /content -->
+	
+	
+</div><!-- /page two -->
+	
+	<div data-role="page" id="ten" data-theme="a">	
+	<div data-role="content" data-theme="a">
+		<center><h1>Crossbow</h1>
+		<img src="Images/Crossbow-Medieval.png" alt="Crossbow" width="400" height="250"></center>
+		
+		<p>A crossbow, also known as horizontal bow is a type of weapon based on the bow and consisting of a horizontal bow-like assembly mounted on a stock. It shoots projectiles called bolts or quarrels. The medieval crossbow was called by many names, most of which were derived from the word ballista, a torsion siege engine resembling a crossbow.</p>
+		
+		<p>Historically, crossbows played a significant role in the warfare of East Asia, Europe, and the Mediterranean. The invention of the crossbow in ancient China caused a major shift in the role of projectile weaponry. The traditional bow and arrow had long been a specialized weapon which required a considerable degree of lifetime training, physical strength, and expertise to operate with any degree of efficiency. In many cultures, bowmen were considered a separate and superior caste, despite being usually drawn from the common class, as their archery skill-set was essentially developed from birth (similar to many horseman cultures) and was impossible to reproduce outside a pre-established cultural tradition, which many nations lacked. In contrast, the crossbow was the first projectile weapon to be simple, cheap, and physically undemanding enough to be operated by large numbers of conscript soldiers, thus enabling virtually any nation to field a potent force of ranged crossbowmen with little expense beyond the cost of the weapons themselves. In Europe, crossbows became widely used in the early medieval period, and this led to the ascendancy of large mercenary armies of crossbowmen (best exemplified by the Genoese crossbowmen), and the eventual demise of the heavily armored aristocratic knight, as armies became progressively dominated by conscripts equipped with increasingly powerful ranged projectile weapons.
+		
+		<p>In modern times, crossbows have been largely supplanted by firearms in most roles but are still widely used for shooting sports, hunting, and when shooting in relative silence is an important consideration.</p>
+		
+		<p><h2>Medival Europe:</h2></p>
+		<p>The crossbow is portrayed as a hunting weapon on four Pictish stones from early medieval Scotland (6th to 9th centuries): St. Vigeans no. 1, Glenferness, Shandwick, and Meigle. The use of crossbows in European warfare is again evident from the Battle of Hastings until about the year 1500. They almost completely superseded hand bows in many European armies in the 12th century for a number of reasons. In modern tests, longbows showed a higher rate of shot than crossbows of the same energy, due to the difficulty of the shooter in handling the mechanical parts for loading in the same time as the bow was pulled. With lots of training, a longbowman can achieve a high degree of accuracy that is comparable to the much steeper learning curve in aimed shooting with the crossbow. Despite strength training, there are physical limits to the longbow, unlike the crossbow, which can store several times the energy, but will be less efficient in translating stored into kinetic energy due to the thicker spring material. There is no record from the Middle Ages comparing longbowmen and crossbowmen shooting in one army from a similar position, although such occasions are known with visiting Englishmen in the Baltic and Scots in the French army.<p>
+		<p>In the armies of Europe, mounted and unmounted crossbowmen, often mixed with slingers, javelineers and archers, occupied a central position in battle formations. Usually they engaged the enemy in offensive skirmishes before an assault of mounted knights. Crossbowmen were also valuable in counterattacks to protect their infantry. The rank of commanding officer of the crossbowmen corps was one of the highest positions in any army of this time. Along with polearm weapons made from farming equipment, the crossbow was also a weapon of choice for insurgent peasants such as the Taborites.<p>
+		<p>Mounted knights armed with lances proved ineffective against formations of pikemen combined with crossbowmen whose weapons could penetrate most knights' armor. The invention of pushlever and ratchet drawing mechanisms enabled the use of crossbows on horseback, leading to the development of new cavalry tactics. Knights and mercenaries deployed in triangular formations, with the most heavily armored knights at the front. Some of these riders would carry small, powerful all-metal crossbows of their own. Crossbows were eventually replaced in warfare by more powerful gunpowder weapons, although early guns had slower rates of fire and much worse accuracy than contemporary crossbows. Later, similar competing tactics would feature harquebusiers or musketeers in formation with pikemen (pike and shot), pitted against cavalry firing pistols or carbines.</p>
+		<center><iframe width="560" height="315" src="https://www.youtube.com/embed/cxN0FZkYk78" frameborder="0" allowfullscreen></iframe></center>
+		<p><a href="#one" data-direction="reverse" data-role="button" data-theme="b">Back to Home</a></p>	
+		</div>
+		</div>
+	</div><!-- /content -->
+	<div data-role="footer" data-theme="d">
+		
+	</div><!-- /footer -->
+	
+</div><!-- /page two -->
+</div><!-- /page two -->
+</body>
+</html>
